@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block start %}
+
+{% comment %} Add Recipe Form starts here {% endcomment %}
+<div class="container mt-5">
+    <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <h2>Add Recipe</h2>
+      <hr>
+      <div class="mb-3">
+        <label for="recipeName" class="form-label">Recipe Name</label>
+        <input name="recipe_name" required type="text" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="recipeDesc" class="form-label">Recipe Description</label>
+        <textarea name="recipe_desc" required class="form-control"></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="recipeImage" class="form-label">Recipe Image</label>
+        <input name="recipe_image" type="file" class="form-control">
+      </div>
+    
+      <button type="submit" class="btn btn-success">Add Recipe</button>
+
+    </form>
+
+{% comment %} Search Box here {% endcomment %}
+
+<div class="mt-5">
+  <div class="mx-auto col-6">
+    <form class="form-control p-3 shadow-lg">
+    <label for="searchFood" class="form-label">Search Food</label>
+    <input name="searchFood" type="text" class="form-control">
+
+    <button type="submit" class="btn btn-primary mt-3">Search</button>
+  </form>
+  </div>
+</div>
+
+{% comment %} Recipes Table starts here {% endcomment %}
+    <table class="table table-bordered p-3 mt-5">
+        <thead>
+          <tr>
+            <th scope="col">S.No.</th>
+            <th scope="col">Recipe Name</th>
+            <th scope="col">Recipe Description</th>
+            <th scope="col">Recipe Image</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for recipe in recipes %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{recipe.recipe_name}}</td>
+            <td>{{recipe.recipe_desc}}</td>
+            <td><img src="../media/{{recipe.recipe_image}}" style="height: 100px; width: 100px;"></td>
+            <td class="p-4"><a href="/delete-recipe/{{recipe.id}}/" class="btn btn-danger">Delete</a>
+              <a href="/update-recipe/{{recipe.id}}/" class="btn btn-success mt-3">Update</a>
+            </td>
+          </tr>
+          {% endfor%}
+        </tbody>
+      </table>
+</div>
+
+
+{% endblock %}
